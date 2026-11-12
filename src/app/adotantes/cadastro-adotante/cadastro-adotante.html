@@ -1,0 +1,113 @@
+<main class="registration-page">
+    <div class="registration-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">O PRIMEIRO PASSO DE UMA NOVA HISTÓRIA</p>
+        <h1>Cadastro de adotante</h1>
+        <p>Conte um pouco sobre você para iniciar sua jornada de adoção com responsabilidade e cuidado.</p>
+    </div>
+
+    <section class="registration-card" aria-labelledby="registration-title">
+        <div class="card-heading">
+            <span class="card-icon" aria-hidden="true"><i class="fa-solid fa-heart"></i></span>
+            <div>
+                <h2 id="registration-title">Seus dados</h2>
+                <p>Todos os campos são obrigatórios.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="form">
+            @if (feedback(); as status) {
+                <div class="feedback-container">
+                    <p class="feedback"
+                       [class.feedback-success]="status.type === 'success'"
+                       [class.feedback-error]="status.type === 'error'"
+                       [attr.role]="status.type === 'error' ? 'alert' : 'status'">
+                        {{ status.message }}
+                    </p>
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="name">Nome completo:</label>
+                <input formControlName="name"
+                       type="text"
+                       id="name"
+                       name="name"
+                       autocomplete="name"
+                       placeholder="Seu nome completo">
+                @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+                    <p class="form-hint">Informe seu nome.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="cpf">CPF:</label>
+                <input formControlName="cpf"
+                       type="text"
+                       id="cpf"
+                       name="cpf"
+                       inputmode="numeric"
+                       autocomplete="off"
+                       placeholder="000.000.000-00">
+                @if (form.controls.cpf.touched && form.controls.cpf.hasError('required')) {
+                    <p class="form-hint">Informe seu CPF.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input formControlName="email"
+                       type="email"
+                       id="email"
+                       name="email"
+                       autocomplete="email"
+                       placeholder="voce@email.com">
+                @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+                    <p class="form-hint">Informe seu e-mail.</p>
+                } @else if (form.controls.email.touched && form.controls.email.hasError('email')) {
+                    <p class="form-hint">Informe um e-mail válido.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Telefone:</label>
+                <input formControlName="phone"
+                       type="tel"
+                       id="phone"
+                       name="phone"
+                       autocomplete="tel"
+                       placeholder="(00) 00000-0000">
+                @if (form.controls.phone.touched && form.controls.phone.hasError('required')) {
+                    <p class="form-hint">Informe seu telefone.</p>
+                }
+            </div>
+
+            <div class="form-group form-group--full">
+                <label for="address">Endereço:</label>
+                <textarea formControlName="address"
+                          id="address"
+                          name="address"
+                          autocomplete="street-address"
+                          rows="3"
+                          placeholder="Rua, número, bairro, cidade e CEP"></textarea>
+                @if (form.controls.address.touched && form.controls.address.hasError('required')) {
+                    <p class="form-hint">Informe seu endereço.</p>
+                }
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+                    {{ submitting() ? 'Salvando...' : 'Cadastrar' }}
+                </button>
+                <button type="button" class="btn btn-secondary"
+                        (click)="form.reset(); feedback.set(null)"
+                        [disabled]="submitting()">
+                    Limpar
+                </button>
+            </div>
+        </form>
+    </section>
+</main>

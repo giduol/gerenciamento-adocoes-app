@@ -1,0 +1,106 @@
+<main class="registration-page">
+    <div class="registration-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">JUNTOS PELOS ANIMAIS</p>
+        <h1>Cadastro de ONG</h1>
+        <p>Cadastre sua organização para fazer parte de uma rede que transforma resgates em novos começos.</p>
+    </div>
+
+    <section class="registration-card" aria-labelledby="registration-title">
+        <div class="card-heading">
+            <span class="card-icon" aria-hidden="true"><i class="fa-solid fa-building"></i></span>
+            <div>
+                <h2 id="registration-title">Dados da organização</h2>
+                <p>Preencha as informações de contato da sua ONG.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="form">
+            @if (feedback(); as status) {
+                <div class="feedback-container">
+                    <p class="feedback"
+                       [class.feedback-success]="status.type === 'success'"
+                       [class.feedback-error]="status.type === 'error'"
+                       [attr.role]="status.type === 'error' ? 'alert' : 'status'">
+                        {{ status.message }}
+                    </p>
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="name">Nome da ONG:</label>
+                <input formControlName="name"
+                       type="text"
+                       id="name"
+                       name="name"
+                       maxlength="30"
+                       autocomplete="organization"
+                       placeholder="Ex.: Amigos dos Animais">
+                @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+                    <p class="form-hint form-hint-error">Informe o nome da ONG.</p>
+                } @else if (form.controls.name.hasError('maxlength')) {
+                    <p class="form-hint form-hint-error">O nome deve ter no máximo 30 caracteres.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="cnpj">CNPJ:</label>
+                <input formControlName="cnpj"
+                       type="text"
+                       id="cnpj"
+                       name="cnpj"
+                       autocomplete="organization"
+                       placeholder="Ex.: 00.000.000/0000-00">
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input formControlName="email"
+                       type="email"
+                       id="email"
+                       name="email"
+                       autocomplete="email"
+                       placeholder="contato@ong.org.br">
+                @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+                    <p class="form-hint form-hint-error">Informe o e-mail da ONG.</p>
+                } @else if (form.controls.email.touched && form.controls.email.hasError('email')) {
+                    <p class="form-hint form-hint-error">Informe um e-mail válido.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Pessoa de contato:</label>
+                <input formControlName="contact"
+                       type="text"
+                       id="contact"
+                       name="contact"
+                       autocomplete="name"
+                       placeholder="Nome da pessoa responsável">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Telefone:</label>
+                <input formControlName="phone"
+                       type="tel"
+                       id="phone"
+                       name="phone"
+                       autocomplete="tel"
+                       placeholder="(00) 00000-0000">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+                    {{ submitting() ? 'Salvando...' : 'Salvar' }}
+                </button>
+                <button type="button" class="btn btn-secondary"
+                        (click)="form.reset(); feedback.set(null)"
+                        [disabled]="submitting()">
+                    Limpar
+                </button>
+            </div>
+        </form>
+    </section>
+</main>

@@ -1,0 +1,108 @@
+<main class="registration-page">
+    <div class="registration-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">UM NOVO COMEÇO</p>
+        <h1>Cadastro de animal</h1>
+        <p>Registre um animal acolhido para que sua história e suas necessidades sejam cuidadas com atenção.</p>
+    </div>
+
+    <section class="registration-card" aria-labelledby="registration-title">
+        <div class="card-heading">
+            <span class="card-icon" aria-hidden="true"><i class="fa-solid fa-paw"></i></span>
+            <div>
+                <h2 id="registration-title">Informações do animal</h2>
+                <p>Nome, espécie e data de nascimento são obrigatórios.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="form">
+            @if (feedback(); as status) {
+                <div class="feedback-container">
+                    <p class="feedback"
+                       [class.feedback-success]="status.type === 'success'"
+                       [class.feedback-error]="status.type === 'error'"
+                       [attr.role]="status.type === 'error' ? 'alert' : 'status'">
+                        {{ status.message }}
+                    </p>
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="name">Nome:</label>
+                <input formControlName="name"
+                       type="text"
+                       id="name"
+                       name="name"
+                       autocomplete="off"
+                       placeholder="Ex.: Lua">
+                @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+                    <p class="form-hint">Informe o nome do animal.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="species">Espécie:</label>
+                <input formControlName="species"
+                       type="text"
+                       id="species"
+                       name="species"
+                       placeholder="Ex.: Cachorro">
+                @if (form.controls.species.touched && form.controls.species.hasError('required')) {
+                    <p class="form-hint">Informe a espécie.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="birthDate">Data de nascimento:</label>
+                <input formControlName="birthDate"
+                       type="date"
+                       id="birthDate"
+                       name="birthDate">
+                @if (form.controls.birthDate.touched && form.controls.birthDate.hasError('required')) {
+                    <p class="form-hint">Informe a data de nascimento.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="breed">Raça:</label>
+                <input formControlName="breed"
+                       type="text"
+                       id="breed"
+                       name="breed"
+                       placeholder="Ex.: Sem raça definida">
+            </div>
+
+            <div class="form-group form-group--full">
+                <label for="specialCharacteristics">Características especiais:</label>
+                <textarea formControlName="specialCharacteristics"
+                          id="specialCharacteristics"
+                          name="specialCharacteristics"
+                          rows="3"
+                          placeholder="Conte sobre personalidade, cuidados ou necessidades especiais"></textarea>
+            </div>
+
+            <div class="form-group form-group--full">
+                <label for="knownDiseases">Doenças conhecidas:</label>
+                <textarea formControlName="knownDiseases"
+                          id="knownDiseases"
+                          name="knownDiseases"
+                          rows="3"
+                          placeholder="Informe doenças ou tratamentos conhecidos; se não houver, deixe em branco"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+                    {{ submitting() ? 'Salvando...' : 'Salvar animal' }}
+                </button>
+                <button type="button" class="btn btn-secondary"
+                        (click)="form.reset(); feedback.set(null)"
+                        [disabled]="submitting()">
+                    Limpar
+                </button>
+            </div>
+        </form>
+    </section>
+</main>

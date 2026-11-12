@@ -1,0 +1,47 @@
+@use './app/home/home';
+
+:root {
+  color-scheme: light;
+  font-family: 'Inter', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #233b32;
+  background: #fbfaf6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: #fbfaf6;
+  color: #233b32;
+  font-family: 'Inter', sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #d97850;
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #f0d7c7;
+  color: #233b32;
+}

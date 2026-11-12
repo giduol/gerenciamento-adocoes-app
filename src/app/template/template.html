@@ -1,0 +1,47 @@
+<div class="portal-shell">
+    <header class="site-header">
+        <a class="brand" routerLink="/" aria-label="Gerenciamento de adoções — página inicial">
+            <span class="brand-icon" aria-hidden="true">
+                <i class="fa-solid fa-paw"></i>
+            </span>
+            <span class="brand-name">Gerenciamento de adoções</span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Navegação principal">
+            <a class="nav-link" routerLink="/" fragment="como-funciona">Como funciona</a>
+            <a class="nav-cta nav-cta-secondary"
+               routerLink="/cadastro-animais"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">
+                <i class="fa-solid fa-paw" aria-hidden="true"></i>
+                <span>Cadastro de animal</span>
+            </a>
+            <a class="nav-cta nav-cta-adopter"
+               routerLink="/cadastro-adotantes"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">
+                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                <span>Cadastro de adotante</span>
+            </a>
+            <a class="nav-cta"
+               routerLink="/cadastro-ongs"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">
+                <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
+                <span>Cadastro de ONG</span>
+            </a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <router-outlet></router-outlet>
+    </div>
+
+    <footer class="site-footer">
+        <a class="footer-brand" routerLink="/">Gerenciamento de adoções</a>
+        <p>Uma rede de cuidado para quem merece um novo começo.</p>
+        <a routerLink="/cadastro-animais">Cadastro de animal</a>
+        <a routerLink="/cadastro-adotantes">Cadastro de adotante</a>
+        <a routerLink="/cadastro-ongs">Cadastro de ONG</a>
+    </footer>
+</div>

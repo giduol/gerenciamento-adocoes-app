@@ -1,0 +1,257 @@
+:host {
+  display: block;
+}
+
+.registration-page {
+  width: min(100% - 48px, 760px);
+  margin: 0 auto;
+  padding: 46px 0 84px;
+}
+
+.registration-heading {
+  margin-bottom: 30px;
+}
+
+.back-link {
+  margin-bottom: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #557064;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: #bd5f39;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #b25e3d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.registration-heading h1 {
+  margin: 0 0 12px;
+  color: #1d382f;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(38px, 6vw, 54px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.registration-heading > p:last-child {
+  max-width: 600px;
+  margin: 0;
+  color: #697970;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.registration-card {
+  padding: clamp(22px, 5vw, 38px);
+  border: 1px solid #e8e9e1;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 16px 48px rgba(34, 57, 48, 0.06);
+}
+
+.card-heading {
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #edf2e8;
+  color: #4b745e;
+  font-size: 18px;
+}
+
+.card-heading h2 {
+  margin: 0 0 5px;
+  color: #263f35;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.card-heading p {
+  margin: 0;
+  color: #718078;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 18px;
+}
+
+.form-group {
+  min-width: 0;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  display: block;
+  color: #344c42;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.form-group input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #dce2dc;
+  border-radius: 10px;
+  background: #fdfdfb;
+  color: #233b32;
+  font-size: 14px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.form-group textarea {
+  width: 100%;
+  min-height: 112px;
+  padding: 12px 14px;
+  border: 1px solid #dce2dc;
+  border-radius: 10px;
+  background: #fdfdfb;
+  color: #233b32;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0aaa3;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #6a947e;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(89, 134, 108, 0.13);
+}
+
+.form-group--full {
+  grid-column: 1 / -1;
+}
+
+.form-hint {
+  margin: 6px 0 0;
+  color: #b23e35;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.feedback-container {
+  grid-column: 1 / -1;
+  margin-bottom: 14px;
+}
+
+.feedback {
+  margin: 0;
+  padding: 13px 15px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.feedback-success {
+  background: #eaf3ec;
+  color: #2b654b;
+}
+
+.feedback-error {
+  background: #fbefed;
+  color: #a53930;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: #d97850;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #bd5f39;
+}
+
+.btn-secondary {
+  border-color: #dce2dc;
+  background: #fff;
+  color: #52685e;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #f5f6f1;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 560px) {
+  .registration-page {
+    width: min(100% - 32px, 760px);
+    padding: 34px 0 58px;
+  }
+
+  .back-link {
+    margin-bottom: 28px;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
