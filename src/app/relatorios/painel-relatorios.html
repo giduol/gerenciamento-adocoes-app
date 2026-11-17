@@ -1,0 +1,25 @@
+<main class="reports-page">
+    <header class="reports-heading">
+        <p class="eyebrow">VISÃO GERAL</p>
+        <h1>Relatórios</h1>
+        <p>Escolha um módulo para consultar os dados cadastrados.</p>
+    </header>
+
+    <section class="module-grid" aria-label="Módulos de relatório">
+        @for (modulo of modulos; track modulo.rota) {
+            <a class="module-card" [routerLink]="modulo.rota">
+                <span class="module-icon" aria-hidden="true">
+                    <i class="fa-solid" [class]="modulo.icone"></i>
+                </span>
+                <span class="module-copy">
+                    <span class="module-title">{{ modulo.titulo }}</span>
+                    <span class="module-description">{{ modulo.descricao }}</span>
+                </span>
+                <span class="module-action">
+                    Acessar relatório
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </span>
+            </a>
+        }
+    </section>
+</main>

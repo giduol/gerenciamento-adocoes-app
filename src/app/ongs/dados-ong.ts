@@ -1,3 +1,5 @@
+import { ApiDateValue } from '../shared/date-format';
+
 export interface OngForm {
     name: string;
     cnpj: string;
@@ -8,5 +10,5 @@ export interface OngForm {
 
 export interface OngDetails extends OngForm {
     id: number;
-    registrationDate: string;
+    registrationDate: ApiDateValue;
 }

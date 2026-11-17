@@ -1,0 +1,55 @@
+<main class="report-page">
+    <div class="report-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">NOVOS LARES</p>
+        <h1>Relatório de adotantes</h1>
+        <p>Consulte os dados das pessoas cadastradas para adoção.</p>
+    </div>
+
+    @if (loading()) {
+        <p class="report-message" role="status">Carregando adotantes...</p>
+    } @else if (error()) {
+        <p class="report-message report-error" role="alert">{{ error() }}</p>
+    } @else if (adotantes().length === 0) {
+        <p class="report-message">Nenhum adotante foi encontrado.</p>
+    } @else {
+        <section class="record-list" aria-label="Adotantes cadastrados">
+            @for (adotante of adotantes(); track adotante.id) {
+                <article class="record-card">
+                    <header class="record-heading">
+                        <div>
+                            <p class="eyebrow">ADOTANTE {{ adotante.id }}</p>
+                            <h2>{{ adotante.name }}</h2>
+                        </div>
+                    </header>
+
+                    <dl class="record-details">
+                        <div class="record-field">
+                            <dt>CPF</dt>
+                            <dd>{{ adotante.cpf || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Endereço</dt>
+                            <dd>{{ adotante.address || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>E-mail</dt>
+                            <dd>{{ adotante.email || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Telefone</dt>
+                            <dd>{{ adotante.phone || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Data de cadastro</dt>
+                            <dd>{{ formatarData(adotante.registrationDate) }}</dd>
+                        </div>
+                    </dl>
+                </article>
+            }
+        </section>
+    }
+</main>

@@ -1,0 +1,59 @@
+<main class="report-page">
+    <div class="report-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">ANIMAIS ACOLHIDOS</p>
+        <h1>Relatório de animais</h1>
+        <p>Consulte os dados dos animais cadastrados.</p>
+    </div>
+
+    @if (loading()) {
+        <p class="report-message" role="status">Carregando animais...</p>
+    } @else if (error()) {
+        <p class="report-message report-error" role="alert">{{ error() }}</p>
+    } @else if (animais().length === 0) {
+        <p class="report-message">Nenhum animal foi encontrado.</p>
+    } @else {
+        <section class="record-list" aria-label="Animais cadastrados">
+            @for (animal of animais(); track animal.id) {
+                <article class="record-card">
+                    <header class="record-heading">
+                        <div>
+                            <p class="eyebrow">ANIMAL {{ animal.id }}</p>
+                            <h2>{{ animal.name }}</h2>
+                        </div>
+                    </header>
+
+                    <dl class="record-details">
+                        <div class="record-field">
+                            <dt>Espécie</dt>
+                            <dd>{{ animal.species || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Data de nascimento</dt>
+                            <dd>{{ formatarData(animal.birthDate) }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Raça</dt>
+                            <dd>{{ animal.breed || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Características especiais</dt>
+                            <dd>{{ animal.specialCharacteristics || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Doenças conhecidas</dt>
+                            <dd>{{ animal.knownDiseases || 'Não informado' }}</dd>
+                        </div>
+                        <div class="record-field">
+                            <dt>Data de cadastro</dt>
+                            <dd>{{ formatarData(animal.registrationDate) }}</dd>
+                        </div>
+                    </dl>
+                </article>
+            }
+        </section>
+    }
+</main>

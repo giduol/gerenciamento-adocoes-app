@@ -1,0 +1,176 @@
+<main class="report-page">
+    <div class="report-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">CUIDADO CONTÍNUO</p>
+        <h1>Relatório de acompanhamentos</h1>
+        <p>Consulte os acompanhamentos pelo CPF do adotante e abra as mídias quando necessário.</p>
+    </div>
+
+    <section class="search-card" aria-labelledby="search-title">
+        <h2 id="search-title">Buscar por adotante</h2>
+        <form [formGroup]="form" (ngSubmit)="buscar()" class="search-form">
+            <div class="search-field">
+                <label for="cpf">CPF do adotante:</label>
+                <input id="cpf"
+                       formControlName="cpf"
+                       type="text"
+                       inputmode="numeric"
+                       maxlength="11"
+                       placeholder="Ex.: 99224646168">
+                @if (form.controls.cpf.touched && form.controls.cpf.hasError('required')) {
+                    <p class="form-hint">Informe o CPF do adotante.</p>
+                }
+                @if (form.controls.cpf.touched && form.controls.cpf.hasError('pattern')) {
+                    <p class="form-hint">Informe os 11 números do CPF, sem pontuação.</p>
+                }
+            </div>
+            <button type="submit" class="search-button" [disabled]="loading()">
+                {{ loading() ? 'Buscando...' : 'Buscar' }}
+            </button>
+        </form>
+    </section>
+
+    @if (error()) {
+        <p class="report-message report-error" role="alert">{{ error() }}</p>
+    } @else if (loading()) {
+        <p class="report-message" role="status">Carregando acompanhamentos...</p>
+    } @else if (searched() && adocoes().length === 0) {
+        <p class="report-message">Nenhuma adoção foi encontrada para este CPF.</p>
+    } @else if (adocoes().length > 0) {
+        <section class="follow-up-list" aria-label="Adoções e acompanhamentos encontrados">
+            @for (registro of adocoes(); track registro.adocao.id) {
+                <article class="follow-up-card">
+                    <header class="follow-up-heading">
+                        <div>
+                            <p class="eyebrow">ADOÇÃO {{ registro.adocao.id }}</p>
+                            <h2>{{ registro.adocao.animal.name }} e {{ registro.adocao.adotante.name }}</h2>
+                        </div>
+                        <span class="period-badge">{{ registro.adocao.status }}</span>
+                    </header>
+
+                    <dl class="follow-up-details">
+                        <div class="report-field">
+                            <dt>Data da adoção:</dt>
+                            <dd>{{ formatarData(registro.adocao.adoptionDate) }}</dd>
+                        </div>
+                        <div class="report-field">
+                            <dt>ONG:</dt>
+                            <dd>{{ registro.adocao.ong.name }}</dd>
+                        </div>
+                        <div class="report-field">
+                            <dt>Adotante:</dt>
+                            <dd>{{ registro.adocao.adotante.name }} (CPF {{ registro.adocao.adotante.cpf }})</dd>
+                        </div>
+                        <div class="report-field">
+                            <dt>Animal:</dt>
+                            <dd>{{ registro.adocao.animal.name }} ({{ registro.adocao.animal.species }})</dd>
+                        </div>
+                    </dl>
+
+                    <section class="media-section" aria-label="Acompanhamentos da adoção">
+                        <h3>Acompanhamentos</h3>
+                        @if (registro.acompanhamentos.length === 0) {
+                            <p class="empty-media">Nenhum acompanhamento cadastrado para esta adoção.</p>
+                        } @else {
+                            @for (acompanhamento of registro.acompanhamentos; track acompanhamento.id) {
+                                <article class="follow-up-card">
+                                    <header class="follow-up-heading">
+                                        <div>
+                                            <p class="eyebrow">ACOMPANHAMENTO {{ acompanhamento.id }}</p>
+                                        </div>
+                                        <span class="period-badge">{{ acompanhamento.periodDays }} dias</span>
+                                    </header>
+
+                                    <dl class="follow-up-details">
+                                        @if (acompanhamento.performedAt) {
+                                            <div class="report-field">
+                                                <dt>Data do acompanhamento:</dt>
+                                                <dd>{{ formatarData(acompanhamento.performedAt) }}</dd>
+                                            </div>
+                                        }
+                                        <div class="report-field">
+                                            <dt>Animal com o adotante:</dt>
+                                            <dd>{{ acompanhamento.animalWithAdopter ? 'Sim' : 'Não' }}</dd>
+                                        </div>
+                                        <div class="report-field">
+                                            <dt>Animal saudável:</dt>
+                                            <dd>{{ acompanhamento.animalHealthy ? 'Sim' : 'Não' }}</dd>
+                                        </div>
+                                        <div class="report-field">
+                                            <dt>Animal devolvido:</dt>
+                                            <dd>{{ acompanhamento.animalReturned ? 'Sim' : 'Não' }}</dd>
+                                        </div>
+                                        <div class="report-field">
+                                            <dt>Animal não localizado:</dt>
+                                            <dd>{{ acompanhamento.animalNotFound ? 'Sim' : 'Não' }}</dd>
+                                        </div>
+                                        <div class="report-field">
+                                            <dt>Métodos:</dt>
+                                            <dd>{{ formatarMetodos(acompanhamento.methods) }}</dd>
+                                        </div>
+                                        <div class="report-field report-field--notes">
+                                            <dt>Observações:</dt>
+                                            <dd>{{ acompanhamento.notes || 'Sem observações.' }}</dd>
+                                        </div>
+                                    </dl>
+
+                                    <section class="media-section" aria-label="Mídias do acompanhamento">
+                                        <h3>Fotos e vídeos</h3>
+                                        @if (acompanhamento.mediaFiles.length === 0) {
+                                            <p class="empty-media">Nenhuma mídia anexada.</p>
+                                        } @else {
+                                            <ul class="media-list">
+                                                @for (media of acompanhamento.mediaFiles; track media.index) {
+                                                    <li class="media-item">
+                                                        <div>
+                                                            <strong>{{ media.fileName }}</strong>
+                                                            <span>{{ media.contentType }} · {{ formatarTamanho(media.sizeBytes) }}</span>
+                                                        </div>
+                                                        <button type="button"
+                                                                class="media-button"
+                                                                [disabled]="loadingMediaKey() !== null"
+                                                                [attr.aria-expanded]="midiaAberta()?.chave === chaveMidia(registro.adocao.id, acompanhamento, media)"
+                                                                (click)="alternarMidia(registro.adocao.id, acompanhamento, media)">
+                                                            @if (loadingMediaKey() === chaveMidia(registro.adocao.id, acompanhamento, media)) {
+                                                                Abrindo...
+                                                            } @else if (midiaAberta()?.chave === chaveMidia(registro.adocao.id, acompanhamento, media)) {
+                                                                Fechar
+                                                            } @else {
+                                                                Abrir
+                                                            }
+                                                        </button>
+                                                        @if (midiaAberta()?.chave === chaveMidia(registro.adocao.id, acompanhamento, media)) {
+                                                            <div class="media-viewer">
+                                                                @if (ehImagem(media.contentType)) {
+                                                                    <img [src]="midiaAberta()?.url ?? ''" [alt]="media.fileName">
+                                                                } @else if (ehVideo(media.contentType)) {
+                                                                    <video [src]="midiaAberta()?.url ?? ''" controls>
+                                                                        Seu navegador não consegue reproduzir este vídeo.
+                                                                    </video>
+                                                                } @else {
+                                                                    <a [href]="midiaAberta()?.url ?? ''" [download]="media.fileName">
+                                                                        Baixar arquivo
+                                                                    </a>
+                                                                }
+                                                            </div>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </section>
+                                </article>
+                            }
+                        }
+                        @if (mediaError()) {
+                            <p class="report-message report-error" role="alert">{{ mediaError() }}</p>
+                        }
+                    </section>
+                </article>
+            }
+        </section>
+    }
+</main>

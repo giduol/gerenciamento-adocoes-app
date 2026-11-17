@@ -1,0 +1,128 @@
+<main class="report-page">
+    <div class="report-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">REDE DE ACOLHIMENTO</p>
+        <h1>Relatório de ONGs</h1>
+        <p>Consulte os dados das organizações cadastradas.</p>
+    </div>
+
+    @if (loading()) {
+        <p class="report-message" role="status">Carregando ONGs...</p>
+    } @else if (error()) {
+        <p class="report-message report-error" role="alert">{{ error() }}</p>
+    } @else if (ongs().length === 0) {
+        <p class="report-message">Nenhuma ONG foi encontrada.</p>
+    } @else {
+        <section class="ong-list" aria-label="ONGs cadastradas">
+            @for (ong of ongs(); track ong.id) {
+                <article class="ong-card">
+                    <header class="ong-heading">
+                        <div>
+                            <p class="eyebrow">ORGANIZAÇÃO {{ ong.id }}</p>
+                            <h2>{{ ong.name }}</h2>
+                        </div>
+                    </header>
+
+                    <dl class="ong-details">
+                        <div class="ong-field">
+                            <dt>CNPJ</dt>
+                            <dd>{{ ong.cnpj || 'Não informado' }}</dd>
+                        </div>
+                        <div class="ong-field">
+                            <dt>E-mail</dt>
+                            <dd>{{ ong.email || 'Não informado' }}</dd>
+                        </div>
+                        <div class="ong-field">
+                            <dt>Contato</dt>
+                            <dd>{{ ong.contact || 'Não informado' }}</dd>
+                        </div>
+                        <div class="ong-field">
+                            <dt>Telefone</dt>
+                            <dd>{{ ong.phone || 'Não informado' }}</dd>
+                        </div>
+                        <div class="ong-field">
+                            <dt>Data de cadastro</dt>
+                            <dd>{{ formatarData(ong.registrationDate) }}</dd>
+                        </div>
+                    </dl>
+
+                    @if (feedback()?.ongId === ong.id) {
+                        <p class="edit-feedback"
+                           [class.edit-feedback-success]="feedback()?.type === 'success'"
+                           [class.edit-feedback-error]="feedback()?.type === 'error'"
+                           [attr.role]="feedback()?.type === 'error' ? 'alert' : 'status'">
+                            {{ feedback()?.message }}
+                        </p>
+                    }
+
+                    <div class="edit-actions">
+                        <button type="button"
+                                class="edit-button"
+                                [attr.aria-expanded]="editingOngId() === ong.id"
+                                [attr.aria-controls]="'form-edicao-ong-' + ong.id"
+                                [disabled]="saving()"
+                                (click)="alternarEdicao(ong)">
+                            {{ editingOngId() === ong.id ? 'Cancelar edição' : 'Editar ONG' }}
+                        </button>
+                    </div>
+
+                    @if (editingOngId() === ong.id) {
+                        <form [formGroup]="form"
+                              [id]="'form-edicao-ong-' + ong.id"
+                              (ngSubmit)="salvarEdicao(ong)"
+                              class="edit-form">
+                            <h3>Editar dados da ONG</h3>
+                            <div class="edit-grid">
+                                <div class="edit-group">
+                                    <label for="name-{{ ong.id }}">Nome:</label>
+                                    <input id="name-{{ ong.id }}" formControlName="name" type="text" autocomplete="organization">
+                                    @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+                                        <p class="edit-hint">Informe o nome da ONG.</p>
+                                    }
+                                    @if (form.controls.name.touched && form.controls.name.hasError('maxlength')) {
+                                        <p class="edit-hint">O nome deve ter no máximo 30 caracteres.</p>
+                                    }
+                                </div>
+                                <div class="edit-group">
+                                    <label for="cnpj-{{ ong.id }}">CNPJ:</label>
+                                    <input id="cnpj-{{ ong.id }}" formControlName="cnpj" type="text" autocomplete="off">
+                                </div>
+                                <div class="edit-group">
+                                    <label for="email-{{ ong.id }}">E-mail:</label>
+                                    <input id="email-{{ ong.id }}" formControlName="email" type="email" autocomplete="email">
+                                    @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+                                        <p class="edit-hint">Informe o e-mail da ONG.</p>
+                                    }
+                                    @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+                                        <p class="edit-hint">Informe um e-mail válido.</p>
+                                    }
+                                </div>
+                                <div class="edit-group">
+                                    <label for="contact-{{ ong.id }}">Contato:</label>
+                                    <input id="contact-{{ ong.id }}" formControlName="contact" type="text" autocomplete="name">
+                                </div>
+                                <div class="edit-group">
+                                    <label for="phone-{{ ong.id }}">Telefone:</label>
+                                    <input id="phone-{{ ong.id }}" formControlName="phone" type="tel" autocomplete="tel">
+                                </div>
+                            </div>
+                            <div class="edit-actions">
+                                <button type="submit" class="edit-button edit-button-primary" [disabled]="saving()">
+                                    {{ saving() ? 'Salvando...' : 'Salvar alterações' }}
+                                </button>
+                                <button type="button" class="edit-button edit-button-secondary"
+                                        (click)="cancelarEdicao()"
+                                        [disabled]="saving()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </article>
+            }
+        </section>
+    }
+</main>

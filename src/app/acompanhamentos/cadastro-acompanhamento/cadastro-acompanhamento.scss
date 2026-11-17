@@ -1,0 +1,52 @@
+@use '../../shared/registration-form';
+
+.readonly-value {
+  min-height: 48px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #dce2dc;
+  border-radius: 10px;
+  background: #f5f6f1;
+  color: #52685e;
+  font-size: 14px;
+}
+
+.report-link {
+  margin-top: 7px;
+  display: inline-block;
+  color: #426d5a;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.checklist {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid #e2e7df;
+  border-radius: 12px;
+}
+
+.checklist .check-option {
+  min-height: 34px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #52685e;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.check-option input {
+  width: 16px;
+  min-height: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  accent-color: #426d5a;
+}
+

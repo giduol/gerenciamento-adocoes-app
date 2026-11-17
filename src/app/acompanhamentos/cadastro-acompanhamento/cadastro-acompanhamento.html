@@ -1,0 +1,144 @@
+<main class="registration-page">
+    <div class="registration-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">CUIDADO CONTÍNUO</p>
+        <h1>Cadastrar acompanhamento</h1>
+        <p>Registre o período de acompanhamento, as condições do animal e as mídias da visita.</p>
+    </div>
+
+    <section class="registration-card" aria-labelledby="registration-title">
+        <div class="card-heading">
+            <span class="card-icon" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
+            <div>
+                <h2 id="registration-title">Dados do acompanhamento</h2>
+                <p>Registre as condições da adoção e o período de acompanhamento.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="form">
+            @if (feedback(); as status) {
+                <div class="feedback-container">
+                    <p class="feedback"
+                       [class.feedback-success]="status.type === 'success'"
+                       [class.feedback-error]="status.type === 'error'"
+                       [attr.role]="status.type === 'error' ? 'alert' : 'status'">
+                        {{ status.message }}
+                    </p>
+                </div>
+            }
+
+            <div class="form-group">
+                <label id="adocaoIdLabel">ID da adoção:</label>
+                <output class="readonly-value" aria-labelledby="adocaoIdLabel">
+                    @if (form.controls.adocaoId.value; as adocaoId) {
+                        {{ adocaoId }}
+                    } @else {
+                        Selecione uma adoção
+                    }
+                </output>
+                @if (form.controls.adocaoId.value === null) {
+                    <a class="report-link" routerLink="/relatorio-adocoes">
+                        Escolher no relatório de adoções
+                    </a>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="periodDays">Período (dias):</label>
+                <select id="periodDays" formControlName="periodDays">
+                    <option [ngValue]="null">Selecione o período</option>
+                    <option [ngValue]="7">7 dias</option>
+                    <option [ngValue]="30">30 dias</option>
+                    <option [ngValue]="60">60 dias</option>
+                    <option [ngValue]="90">90 dias</option>
+                    <option [ngValue]="182">182 dias</option>
+                    <option [ngValue]="365">365 dias</option>
+                </select>
+                @if (form.controls.periodDays.touched && form.controls.periodDays.hasError('required')) {
+                    <p class="form-hint">Informe o período em dias.</p>
+                }
+            </div>
+
+            <fieldset class="form-group checklist">
+                <legend>Condições observadas</legend>
+                <label class="check-option">
+                    <input formControlName="animalWithAdopter" type="checkbox">
+                    <span>Animal está com o adotante</span>
+                </label>
+                <label class="check-option">
+                    <input formControlName="animalHealthy" type="checkbox">
+                    <span>Animal está saudável</span>
+                </label>
+                <label class="check-option">
+                    <input formControlName="animalReturned" type="checkbox">
+                    <span>Animal foi devolvido</span>
+                </label>
+                <label class="check-option">
+                    <input formControlName="animalNotFound" type="checkbox">
+                    <span>Animal não foi localizado</span>
+                </label>
+            </fieldset>
+
+            <fieldset class="form-group checklist">
+                <legend>Métodos utilizados:</legend>
+                <label class="check-option">
+                    <input type="checkbox"
+                           [checked]="form.controls.methods.value.includes('PHOTOS')"
+                           (change)="alternarMetodo('PHOTOS', $event)">
+                    <span>Fotos</span>
+                </label>
+                <label class="check-option">
+                    <input type="checkbox"
+                           [checked]="form.controls.methods.value.includes('VIDEOS')"
+                           (change)="alternarMetodo('VIDEOS', $event)">
+                    <span>Vídeos</span>
+                </label>
+                @if (form.controls.methods.touched && form.controls.methods.hasError('required')) {
+                    <p class="form-hint">Selecione pelo menos um método.</p>
+                }
+            </fieldset>
+
+            <div class="form-group form-group--full">
+                <label for="medias">Fotos ou vídeos (opcional):</label>
+                <input #mediaInput
+                       id="medias"
+                       name="medias"
+                       type="file"
+                       accept="image/*,video/*"
+                       multiple
+                       (change)="selecionarMidias($event)">
+                @if (form.controls.medias.value.length > 0) {
+                    <ul class="selected-media">
+                        @for (media of form.controls.medias.value; track $index) {
+                            <li>{{ media.name }}</li>
+                        }
+                    </ul>
+                }
+            </div>
+
+            <div class="form-group form-group--full">
+                <label for="notes">Observações:</label>
+                <textarea formControlName="notes"
+                          id="notes"
+                          name="notes"
+                          rows="4"
+                          placeholder="Descreva como está a adaptação do animal"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"
+                        [disabled]="submitting() || form.controls.adocaoId.value === null">
+                    {{ submitting() ? 'Salvando...' : 'Cadastrar acompanhamento' }}
+                </button>
+                <button type="button" class="btn btn-secondary"
+                        (click)="limparFormulario()"
+                        [disabled]="submitting()">
+                    Limpar
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
