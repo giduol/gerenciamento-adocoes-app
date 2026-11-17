@@ -1,0 +1,48 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <div class="login-brand-icon" aria-hidden="true">
+      <i class="fa-solid fa-paw"></i>
+    </div>
+    <p class="eyebrow">GERENCIAMENTO DE ADOÇÕES</p>
+    <h1 id="login-title">Entrar</h1>
+    <p class="login-description">Entre com seu usuário e senha para acessar o sistema.</p>
+
+    <form [formGroup]="form" (ngSubmit)="entrar()">
+      <div class="login-field">
+        <label for="username">Usuário</label>
+        <input
+          id="username"
+          formControlName="username"
+          type="text"
+          autocomplete="username"
+          required
+        />
+        @if (form.controls.username.touched && form.controls.username.hasError('required')) {
+          <p class="field-error">Informe seu usuário.</p>
+        }
+      </div>
+
+      <div class="login-field">
+        <label for="password">Senha</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+        @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+          <p class="field-error">Informe sua senha.</p>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="login-error" role="alert">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </form>
+  </section>
+</main>

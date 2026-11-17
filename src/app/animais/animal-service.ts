@@ -1,13 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AnimalForm } from './dados-animal';
+import { AnimalDetails, AnimalForm } from './dados-animal';
+import { API_URL } from '../shared/api-url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnimalService {
   private readonly http = inject(HttpClient);
+
+  listar(): Observable<AnimalDetails[]> {
+    return this.http.get<AnimalDetails[]>(`${API_URL}/animais`);
+  }
 
   criar(dados: AnimalForm): Observable<void> {
     const payload: AnimalForm = {
@@ -19,6 +24,6 @@ export class AnimalService {
       knownDiseases: dados.knownDiseases,
     };
 
-    return this.http.post<void>('http://localhost:8080/animais', payload);
+    return this.http.post<void>(`${API_URL}/animais`, payload);
   }
 }

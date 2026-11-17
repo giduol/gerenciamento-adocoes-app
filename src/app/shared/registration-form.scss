@@ -113,7 +113,8 @@
   font-weight: 650;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   min-height: 48px;
   padding: 0 14px;
@@ -123,6 +124,10 @@
   color: #233b32;
   font-size: 14px;
   transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.form-group input[type='file'] {
+  padding: 10px 12px;
 }
 
 .form-group textarea {
@@ -146,6 +151,7 @@
 }
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   border-color: #6a947e;
   outline: none;

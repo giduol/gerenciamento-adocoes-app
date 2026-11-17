@@ -1,0 +1,104 @@
+<main class="registration-page">
+    <div class="registration-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">UM NOVO COMEÇO</p>
+        <h1>Registrar adoção</h1>
+        <p>Relacione uma ONG, um animal e um adotante para iniciar uma nova história.</p>
+    </div>
+
+    <section class="registration-card" aria-labelledby="registration-title">
+        <div class="card-heading">
+            <span class="card-icon" aria-hidden="true"><i class="fa-solid fa-heart"></i></span>
+            <div>
+                <h2 id="registration-title">Informações da adoção</h2>
+                <p>Selecione os cadastros existentes para criar uma adoção pendente.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="form">
+            @if (feedback(); as status) {
+                <div class="feedback-container">
+                    <p class="feedback"
+                       [class.feedback-success]="status.type === 'success'"
+                       [class.feedback-error]="status.type === 'error'"
+                       [attr.role]="status.type === 'error' ? 'alert' : 'status'">
+                        {{ status.message }}
+                    </p>
+                </div>
+            }
+
+            @if (loading()) {
+                <p class="form-group--full loading-message" role="status">Carregando cadastros...</p>
+            } @else {
+                <div class="form-group">
+                    <label for="ongId">ONG responsável:</label>
+                    <select id="ongId" formControlName="ongId">
+                        <option [ngValue]="null">Selecione uma ONG</option>
+                        @for (ong of ongs(); track ong.id) {
+                            <option [ngValue]="ong.id">{{ ong.name }}</option>
+                        }
+                    </select>
+                    @if (form.controls.ongId.touched && form.controls.ongId.hasError('required')) {
+                        <p class="form-hint">Selecione a ONG responsável.</p>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="animalId">Animal:</label>
+                    <select id="animalId" formControlName="animalId">
+                        <option [ngValue]="null">Selecione um animal</option>
+                        @for (animal of animais(); track animal.id) {
+                            <option [ngValue]="animal.id">{{ animal.name }} — {{ animal.species }}</option>
+                        }
+                    </select>
+                    @if (form.controls.animalId.touched && form.controls.animalId.hasError('required')) {
+                        <p class="form-hint">Selecione o animal.</p>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="adotanteId">Adotante:</label>
+                    <select id="adotanteId" formControlName="adotanteId">
+                        <option [ngValue]="null">Selecione um adotante</option>
+                        @for (adotante of adotantes(); track adotante.id) {
+                            <option [ngValue]="adotante.id">{{ adotante.name }}</option>
+                        }
+                    </select>
+                    @if (form.controls.adotanteId.touched && form.controls.adotanteId.hasError('required')) {
+                        <p class="form-hint">Selecione o adotante.</p>
+                    }
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label for="document">Documento da adoção (PDF):</label>
+                    <input #documentInput
+                           id="document"
+                           name="document"
+                           type="file"
+                           accept=".pdf,application/pdf"
+                           (change)="selecionarDocumento($event)">
+                    @if (form.controls.adoptionDocument.value; as documento) {
+                        <p class="form-hint">{{ documento.name }}</p>
+                    }
+                    @if (form.controls.adoptionDocument.touched && form.controls.adoptionDocument.hasError('required')) {
+                        <p class="form-hint">Selecione o PDF do documento de adoção.</p>
+                    }
+                </div>
+            }
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" [disabled]="loading() || submitting()">
+                    {{ submitting() ? 'Registrando...' : 'Registrar adoção' }}
+                </button>
+                <button type="button" class="btn btn-secondary"
+                        (click)="limparFormulario()"
+                        [disabled]="loading() || submitting()">
+                    Limpar
+                </button>
+            </div>
+        </form>
+    </section>
+</main>

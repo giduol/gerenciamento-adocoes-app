@@ -8,29 +8,46 @@
         </a>
 
         <nav class="primary-nav" aria-label="Navegação principal">
-            <a class="nav-link" routerLink="/" fragment="como-funciona">Como funciona</a>
-            <a class="nav-cta nav-cta-secondary"
-               routerLink="/cadastro-animais"
-               routerLinkActive="active"
-               ariaCurrentWhenActive="page">
-                <i class="fa-solid fa-paw" aria-hidden="true"></i>
-                <span>Cadastro de animal</span>
-            </a>
-            <a class="nav-cta nav-cta-adopter"
-               routerLink="/cadastro-adotantes"
-               routerLinkActive="active"
-               ariaCurrentWhenActive="page">
-                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
-                <span>Cadastro de adotante</span>
-            </a>
-            <a class="nav-cta"
-               routerLink="/cadastro-ongs"
-               routerLinkActive="active"
-               ariaCurrentWhenActive="page">
-                <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
-                <span>Cadastro de ONG</span>
-            </a>
+            @for (menu of menus; track menu.id) {
+                <div class="nav-menu">
+                    <button type="button"
+                            class="nav-menu-trigger"
+                            [attr.aria-expanded]="menuAberto() === menu.id"
+                            [attr.aria-controls]="'submenu-' + menu.id"
+                            aria-haspopup="true"
+                            (click)="alternarMenu(menu.id)"
+                            (keydown.escape)="fecharMenu()">
+                        {{ menu.titulo }}
+                        <i class="fa-solid fa-chevron-down menu-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-submenu"
+                         [id]="'submenu-' + menu.id"
+                         [hidden]="menuAberto() !== menu.id">
+                        @for (opcao of menu.opcoes; track opcao.rota) {
+                            <a [routerLink]="opcao.rota"
+                               routerLinkActive="active"
+                               ariaCurrentWhenActive="page"
+                               (click)="fecharMenu()">
+                                <i [class]="'fa-solid ' + opcao.icone" aria-hidden="true"></i>
+                                <span>{{ opcao.titulo }}</span>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
         </nav>
+        <div class="session-actions">
+            @if (usuario(); as user) {
+                <span class="session-username">{{ user.username }}</span>
+            }
+            <button type="button" class="logout-button" (click)="sair()">
+                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                Sair
+            </button>
+            @if (erroLogout()) {
+                <span class="logout-error" role="alert">{{ erroLogout() }}</span>
+            }
+        </div>
     </header>
 
     <div class="page-content">
@@ -38,10 +55,38 @@
     </div>
 
     <footer class="site-footer">
-        <a class="footer-brand" routerLink="/">Gerenciamento de adoções</a>
-        <p>Uma rede de cuidado para quem merece um novo começo.</p>
-        <a routerLink="/cadastro-animais">Cadastro de animal</a>
-        <a routerLink="/cadastro-adotantes">Cadastro de adotante</a>
-        <a routerLink="/cadastro-ongs">Cadastro de ONG</a>
+        <div class="footer-intro">
+            <a class="footer-brand" routerLink="/">Gerenciamento de adoções</a>
+            <p>Uma rede de cuidado para quem merece um novo começo.</p>
+            <a class="footer-dashboard" routerLink="/relatorios">Painel de relatórios</a>
+        </div>
+
+        <nav class="footer-nav" aria-label="Navegação do rodapé">
+            <div class="footer-group">
+                <h2>Animais</h2>
+                <a routerLink="/cadastro-animais">Cadastro</a>
+                <a routerLink="/relatorio-animais">Consultar</a>
+            </div>
+            <div class="footer-group">
+                <h2>Adotantes</h2>
+                <a routerLink="/cadastro-adotantes">Cadastro</a>
+                <a routerLink="/relatorio-adotantes">Consultar</a>
+            </div>
+            <div class="footer-group">
+                <h2>ONGs</h2>
+                <a routerLink="/cadastro-ongs">Cadastro</a>
+                <a routerLink="/relatorio-ongs">Consultar</a>
+            </div>
+            <div class="footer-group">
+                <h2>Adoções</h2>
+                <a routerLink="/adocoes">Cadastro</a>
+                <a routerLink="/relatorio-adocoes">Consultar</a>
+            </div>
+            <div class="footer-group">
+                <h2>Acompanhamento</h2>
+                <a routerLink="/acompanhamentos">Cadastro</a>
+                <a routerLink="/relatorio-acompanhamentos">Consultar</a>
+            </div>
+        </nav>
     </footer>
 </div>

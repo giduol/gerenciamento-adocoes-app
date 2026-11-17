@@ -1,0 +1,242 @@
+:host {
+  display: block;
+}
+
+.report-page {
+  width: min(100% - 48px, 1100px);
+  margin: 0 auto;
+  padding: 46px 0 84px;
+}
+
+.report-heading {
+  margin-bottom: 30px;
+}
+
+.back-link {
+  margin-bottom: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #557064;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: #bd5f39;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #b25e3d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.report-heading h1 {
+  margin: 0 0 12px;
+  color: #1d382f;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(38px, 6vw, 54px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.report-heading > p:last-child {
+  max-width: 700px;
+  margin: 0;
+  color: #697970;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.adoption-list {
+  display: grid;
+  gap: 22px;
+}
+
+.adoption-card {
+  padding: clamp(20px, 4vw, 32px);
+  border: 1px solid #e8e9e1;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 16px 48px rgba(34, 57, 48, 0.06);
+}
+
+.adoption-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e9e1;
+}
+
+.adoption-heading .eyebrow {
+  margin-bottom: 6px;
+}
+
+.adoption-heading h2 {
+  margin: 0;
+  color: #263f35;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.status-badge {
+  flex: 0 0 auto;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #edf2e8;
+  color: #426d5a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.adoption-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.follow-up-link {
+  min-height: 40px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #dce2dc;
+  border-radius: 999px;
+  color: #426d5a;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.follow-up-link:hover,
+.follow-up-link:focus-visible {
+  border-color: #b7c8b7;
+  background: #edf2e8;
+}
+
+.report-sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding-top: 24px;
+}
+
+.report-section h3 {
+  margin: 0 0 12px;
+  color: #344c42;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.report-section dl {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.report-field {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.report-field dt {
+  text-align: left;
+  color: #718078;
+}
+
+.report-field dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-align: left;
+  color: #263f35;
+  font-weight: 550;
+}
+
+.document-actions {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #e8e9e1;
+}
+
+.document-button {
+  min-height: 44px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 999px;
+  background: #426d5a;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.document-button:hover {
+  background: #315746;
+}
+
+.no-document,
+.report-message {
+  margin: 0;
+  color: #697970;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.report-error {
+  color: #a53930;
+}
+
+.pdf-viewer {
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid #dce2dc;
+  border-radius: 12px;
+}
+
+.pdf-viewer iframe {
+  width: 100%;
+  height: min(75vh, 900px);
+  min-height: 480px;
+  display: block;
+  border: 0;
+  background: #f5f6f1;
+}
+
+@media (max-width: 640px) {
+  .report-page {
+    width: min(100% - 32px, 1100px);
+    padding: 34px 0 58px;
+  }
+
+  .adoption-heading {
+    flex-direction: column;
+  }
+
+  .report-sections {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .pdf-viewer iframe {
+    min-height: 360px;
+  }
+}

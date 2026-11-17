@@ -1,0 +1,116 @@
+<main class="report-page">
+    <div class="report-heading">
+        <a class="back-link" routerLink="/">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Voltar ao início
+        </a>
+        <p class="eyebrow">ACOMPANHAMENTO</p>
+        <h1>Relatório de adoções</h1>
+        <p>Consulte os dados de cada adoção e abra o documento PDF somente quando precisar.</p>
+    </div>
+
+    @if (loading()) {
+        <p class="report-message" role="status">Carregando adoções...</p>
+    } @else if (error()) {
+        <p class="report-message report-error" role="alert">{{ error() }}</p>
+    } @else if (adocoes().length === 0) {
+        <p class="report-message">Nenhuma adoção foi encontrada.</p>
+    } @else {
+        <section class="adoption-list" aria-label="Adoções cadastradas">
+            @for (adocao of adocoes(); track adocao.id) {
+                <article class="adoption-card">
+                    <header class="adoption-heading">
+                        <div>
+                            <p class="eyebrow">REGISTRO {{ adocao.id }}</p>
+                            <h2>{{ adocao.animal.name }} &amp; {{ adocao.adotante.name }}</h2>
+                        </div>
+                        <div class="adoption-header-actions">
+                            <span class="status-badge">{{ adocao.status }}</span>
+                            <a class="follow-up-link"
+                               [routerLink]="['/acompanhamentos']"
+                               [queryParams]="{ adocaoId: adocao.id }"
+                               [attr.aria-label]="'Adicionar acompanhamento para a adoção ' + adocao.id">
+                                <i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>
+                                Adicionar acompanhamento
+                            </a>
+                        </div>
+                    </header>
+
+                    <div class="report-sections">
+                        <section class="report-section" aria-label="Dados da adoção">
+                            <h3>Adoção</h3>
+                            <dl>
+                                @for (campo of camposAdocao(adocao); track campo.rotulo) {
+                                    <div class="report-field">
+                                        <dt>{{ campo.rotulo }}:</dt>
+                                        <dd>{{ campo.valor }}</dd>
+                                    </div>
+                                }
+                            </dl>
+                        </section>
+
+                        <section class="report-section" aria-label="Dados da ONG">
+                            <h3>ONG responsável</h3>
+                            <dl>
+                                @for (campo of camposOng(adocao.ong); track campo.rotulo) {
+                                    <div class="report-field">
+                                        <dt>{{ campo.rotulo }}</dt>
+                                        <dd>{{ campo.valor }}</dd>
+                                    </div>
+                                }
+                            </dl>
+                        </section>
+
+                        <section class="report-section" aria-label="Dados do animal">
+                            <h3>Animal</h3>
+                            <dl>
+                                @for (campo of camposAnimal(adocao.animal); track campo.rotulo) {
+                                    <div class="report-field">
+                                        <dt>{{ campo.rotulo }}</dt>
+                                        <dd>{{ campo.valor }}</dd>
+                                    </div>
+                                }
+                            </dl>
+                        </section>
+
+                        <section class="report-section" aria-label="Dados do adotante">
+                            <h3>Adotante</h3>
+                            <dl>
+                                @for (campo of camposAdotante(adocao.adotante); track campo.rotulo) {
+                                    <div class="report-field">
+                                        <dt>{{ campo.rotulo }}</dt>
+                                        <dd>{{ campo.valor }}</dd>
+                                    </div>
+                                }
+                            </dl>
+                        </section>
+                    </div>
+
+                    <div class="document-actions">
+                        @if (adocao.adoptionDocument) {
+                            <button type="button"
+                                    class="document-button"
+                                    [attr.aria-expanded]="documentoAberto()?.adocaoId === adocao.id"
+                                    (click)="alternarDocumento(adocao)">
+                                <i class="fa-solid"
+                                   [class.fa-file-pdf]="documentoAberto()?.adocaoId !== adocao.id"
+                                   [class.fa-xmark]="documentoAberto()?.adocaoId === adocao.id"
+                                   aria-hidden="true"></i>
+                                {{ documentoAberto()?.adocaoId === adocao.id ? 'Fechar documento' : 'Abrir documento PDF' }}
+                            </button>
+                        } @else {
+                            <p class="no-document">Documento não disponível.</p>
+                        }
+                    </div>
+
+                    @if (documentoAberto()?.adocaoId === adocao.id) {
+                        <div class="pdf-viewer">
+                            <iframe [src]="documentoAberto()?.urlSegura ?? null"
+                                    [title]="'Documento PDF da adoção ' + adocao.id"></iframe>
+                        </div>
+                    }
+                </article>
+            }
+        </section>
+    }
+</main>
