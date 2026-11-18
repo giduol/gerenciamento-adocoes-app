@@ -1,2 +1,4 @@
-export const API_URL = '/api';
-export const BACKEND_ORIGIN = 'http://localhost:8080';
+import { environment } from '../../environments/environment';
+
+export const API_URL = environment.apiUrl;
+export const BACKEND_ORIGIN = environment.backendOrigin;
