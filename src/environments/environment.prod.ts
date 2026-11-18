@@ -1,7 +1,8 @@
 // Build de produção: usado por `npm run build`.
-// O front publicado chama o backend de produção diretamente.
+// As chamadas a /api são encaminhadas pelo nginx (nginx.conf) para o backend de produção,
+// então o navegador vê front e backend no mesmo domínio (sem CORS).
 export const environment = {
   production: true,
-  apiUrl: 'https://site--gerencimanto-adocoes--cj6ybc4ywxr4.code.run',
+  apiUrl: '/api',
   backendOrigin: 'https://site--gerencimanto-adocoes--cj6ybc4ywxr4.code.run',
 };
